@@ -5,6 +5,17 @@
     src: ifcfg.j2
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ ansible_default_ipv4.interface }}"
     backup: yes
+  when:
+    - hostvars[inventory_hostname]['ansible_os_family'] in ['RedHat']
+  register: static_file_copied
+
+- name: Copy static ifcfg file to the location
+  template:
+    src: ifcfg-debian.j2 
+    dest: "/etc/network/interfaces"
+    backup: yes
+  when:
+    - hostvars[inventory_hostname]['ansible_os_family'] in ['Debian']
   register: static_file_copied
 
 - name: Force Networkmanager reload of the /etc/resolv.conf 1 of 2

@@ -1,0 +1,18 @@
+auto lo
+iface lo inet loopback
+
+iface {{ hostvars[inventory_hostname]['ansible_default_ipv4']['interface'] }} inet static
+  address {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+  netmask {{ hostvars[inventory_hostname]['ansible_default_ipv4']['netmask'] }} 
+  gateway {{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}
+  network {{ hostvars[inventory_hostname]['ansible_default_ipv4']['network'] }}
+  broadcast {{ hostvars[inventory_hostname]['ansible_default_ipv4']['broadcast'] }}
+{% if hostvars[inventory_hostname]['add_dnsnameserver'] is defined and hostvars[inventory_hostname]['add_dnsnameserver'] | bool %}
+  dns-nameservers {{ idm_ip }}
+{% endif %}
+{% if desired_mtu is defined and desired_mtu|int > 0 %}
+  mtu {{ desired_mtu|int }}
+{% endif %}
+{% if search_domain is defined and search_domain|length > 0 %}
+  domain {{ search_domain }}
+{% endif %}
