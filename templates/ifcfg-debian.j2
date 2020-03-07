@@ -14,5 +14,5 @@ iface {{ hostvars[inventory_hostname]['ansible_default_ipv4']['interface'] }} in
   mtu {{ desired_mtu|int }}
 {% endif %}
 {% if search_domain is defined and search_domain|length > 0 %}
-  domain {{ search_domain }}
+  dns-search {{ search_domain }}
 {% endif %}
